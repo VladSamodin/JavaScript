@@ -4,6 +4,14 @@ var Node  = function(value, prev, next) {
     this.next = next || null;
 }
 
+Node.prototype.getNext = function() {
+    return this.next;
+}
+
+Node.prototype.getPrev = function() {
+    return this.prev;
+}
+
 var LinkedList = function() {
     this.head = null;
     this.tail = null;
@@ -12,7 +20,7 @@ var LinkedList = function() {
 
 LinkedList.prototype.addTail = function(value) {
     var newNode = new Node(value, this.tail);
-    if (!this.head){
+    if (!this.head) {
         this.head = newNode;
     }
     else {
@@ -25,7 +33,7 @@ LinkedList.prototype.addTail = function(value) {
 
 LinkedList.prototype.addHead = function(value) {
     var newNode = new Node(value, null, this.head);
-    if (!this.head){
+    if (!this.head) {
         this.tail = newNode;
     }
     else {
@@ -72,6 +80,9 @@ LinkedList.prototype.reverse = function() {
 };
 
 LinkedList.prototype.deleteNode = function(node) {
+    // node instanceof Node ?
+    if (!node)
+        throw new ReferenceError();
     if (!this.head)
         return this;
 
@@ -98,8 +109,9 @@ LinkedList.prototype.deleteValue = function(value) {
 };
 
 LinkedList.prototype.insertBefore = function(node, value) {
+    if (!node) 
+        throw new ReferenceError();
     var prevNode = node.prev;
-    //var nextNode = node.next;
     var newNode = new Node(value, prevNode, node);
     if (prevNode)
         prevNode.next = newNode;
@@ -111,7 +123,8 @@ LinkedList.prototype.insertBefore = function(node, value) {
 };
 
 LinkedList.prototype.insertAfter = function(node, value) {
-    //var prevNode = node.prev;
+    if (!node) 
+        throw new ReferenceError();
     var nextNode = node.next;
     var newNode = new Node(value, node, nextNode);
     if (nextNode)
@@ -133,43 +146,136 @@ LinkedList.prototype.print = function() {
     }
     console.log(resultString);
     //console.log("count = "+ this.count);
+    return this;
 };
 
+LinkedList.prototype.at = function(index) {
+    var i, currentNode;
+    if (index < -this.count || index >= this.count)
+        throw new RangeError();
+   
+    if (index >= 0) {
+        currentNode = this.head;
+        for (i = 0; i < index; i++)
+            currentNode = currentNode.next;
+        return currentNode;
+    }
+    else {
+        currentNode = this.tail;
+        for (i = -1; i > index; i--)
+            currentNode = currentNode.prev;
+        return currentNode;
+    }
+
+    // var next            = index >= 0 ? Node.prototype.getNext : Node.prototype.getPrev;
+    // var currentNode     = index >= 0 ? this.head              : this.tail;
+    // var countIterations = index >= 0 ? index                  : -index - 1;
+    // for (var i = 0; i < countIterations; i++)
+    //     currentNode = next.apply(currentNode, null);
+    // return currentNode;
+
+}
+
+LinkedList.prototype.deleteAt = function(index) {
+    var toDelete = this.at(index);
+    this.deleteNode(toDelete);
+    return this;
+}
+
+LinkedList.prototype.insertAt = function(index, value) {        
+    if (index >= this.count) {
+        this.append(value);
+    }
+    else if (index < -this.count) {
+        this.addHead(value);
+    }
+    else if (index < 0) {
+        this.insertAfter(this.at(index), value);
+    }
+    else {
+        this.insertBefore(this.at(index), value);
+    }
+    return this;
+}
+
+LinkedList.prototype.indexOf = function(value) {
+    return this.find(value);
+}
+
+
+LinkedList.prototype.append = function(value) {
+    this.addTail(value);
+    return this;
+}
+
+LinkedList.prototype.each = function(func) {
+    var currentNode = this.head;
+    while (currentNode) {
+        func(currentNode);
+        currentNode = currentNode.next;
+    }
+    return this;
+} 
 
 
 var list = new LinkedList();
 
-list.addTail(1).addTail(2).addTail(3).addTail(4).addTail(5)
-    .addHead(6).addHead(7);
+console.log("-------------------------------------------------------------------------");
 
-list.print();
-list.reverse();
+console.log("list.append(1).append(2).append(3).append(4).append(5)\n\t.addHead(6).addHead(7);");
 
-console.log("");
-list.print();
+list.append(1).append(2).append(3).append(4).append(5)
+    .addHead(6).addHead(7).print();
 
-list.reverse();
+console.log("list.reverse()");
 
-list.insertBefore(list.find(7), 8)
-    .insertBefore(list.find(1), 0);
+list.reverse().print();
 
-console.log("");
-list.print();
+console.log("list.reverse()\n\t.insertBefore(list.find(7), 8)\n\t.insertBefore(list.find(1), 0)");
+
+list.reverse()
+    .insertBefore(list.find(7), 8)
+    .insertBefore(list.find(1), 0)
+    .print();
+
+console.log("list.insertAfter(list.find(5), 20)\n\t.insertAfter(list.head, 12)");
 
 list.insertAfter(list.find(5), 20)
-    .insertAfter(list.head, 12);
+    .insertAfter(list.head, 12)
+    .print();
 
-console.log("");
-list.print();
+console.log("list.insertAt(-50, -1)\n\t.insertAt(50, 23)\n\t.insertAt(0, -2)\n\t.insertAt(-1, 24)\n\t.insertAt(5, 7.5)\n\t.insertAt(-5, 14.5)");
+
+list.insertAt(-50, -1)
+    .insertAt(50, 23)
+    .insertAt(0, -2)
+    .insertAt(-1, 24)
+    .insertAt(5, 7.5)
+    .insertAt(-5, 14.5)
+    .print();
+
+console.log("list.deleteNode(list.head)\n\t.deleteNode(list.tail)\n\t.deleteValue(0)");
 
 list.deleteNode(list.head)
     .deleteNode(list.tail)
-    .deleteValue(0);
+    .deleteValue(0)
+    .print();
 
-console.log("");
-list.print();
+console.log("list.deleteAt(0)\n\t.deleteAt(-1)\n\t.deleteAt(-2)\n\t.deleteAt(1)");
 
-list.reverse();
+list.deleteAt(0)
+    .deleteAt(-1)
+    .deleteAt(-2)
+    .deleteAt(1)
+    .print();
 
-console.log("");
-list.print();
+console.log("list.each(function(node) {\n\tnode.value += 1;\n})");
+
+list.each(function(node) {
+    node.value += 1;
+}).print();
+
+console.log("list.reverse()");
+
+list.reverse()
+    .print();
