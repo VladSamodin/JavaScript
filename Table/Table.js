@@ -1,10 +1,10 @@
 window.addEventListener("load", function() {
     var changeColor = function(e) {
         var target = e.target || e.srcElement;
-        //if (target.tagName === "td") {
-        target.classList.toggle("blue_cell");
-        target.classList.toggle("green_cell");
-        //}
+        if (target.tagName === "TD") {
+            target.classList.toggle("blue_cell");
+            target.classList.toggle("green_cell");
+        }
     }
 
     var table = document.createElement('table');
