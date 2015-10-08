@@ -81,6 +81,8 @@ ExtendedTree.prototype.deleteValue = function (value) {
 }
 
 ExtendedTree.prototype.deleteNode = function (node) {
+    if (!node)
+        throw new ReferenceError();
     var reallyDeletedNode;
     var childDeletedNode;
     var nodeDeletedValue = node;
@@ -108,6 +110,8 @@ ExtendedTree.prototype.deleteNode = function (node) {
 
 
 ExtendedTree.prototype.getSuccessor = function (node) {
+    if (!node)
+        throw new ReferenceError();
     if (node.right)
         return ExtendedTree.prototype.minimumTree(node.right);
     var currentNode = node;
@@ -120,6 +124,8 @@ ExtendedTree.prototype.getSuccessor = function (node) {
 }
 
 ExtendedTree.prototype.minimumTree = function minimum (node) {
+    if (!node)
+        throw new ReferenceError();
     if (node.left)
         return minimum(node.left);
     else
@@ -129,9 +135,7 @@ ExtendedTree.prototype.minimumTree = function minimum (node) {
 
 var tree = new ExtendedTree();
 tree.add(5).add(4).add(3).add(8).add(7)
-    .add(13).add(11).add(12).add(14);
-
-tree.print();
+    .add(13).add(11).add(12).add(14).print();
 console.log("");
 
 tree.deleteValue(4).print();
