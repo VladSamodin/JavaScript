@@ -7,7 +7,11 @@ function Node(value, parent, left, right) {
 }
 
 function Tree() {
+    var i;
     this.root = null;
+    for (i = 0; i < arguments.length; i++) {
+        this.add(arguments[i]);
+    }
 }
 
 Tree.prototype.add = function(value) {
@@ -132,10 +136,9 @@ ExtendedTree.prototype.minimumTree = function minimum (node) {
         return node;
 }
 
+var tree = new ExtendedTree(5, 4, 3, 8, 7);
 
-var tree = new ExtendedTree();
-tree.add(5).add(4).add(3).add(8).add(7)
-    .add(13).add(11).add(12).add(14).print();
+tree.add(13).add(11).add(12).add(14).print();
 console.log("");
 
 tree.deleteValue(4).print();
