@@ -1,0 +1,54 @@
+.container {
+    border: 2px solid black;
+}
+
+.carousel-container {
+    position: relative;
+    padding-left: 45px;
+    padding-right: 45px;
+}
+
+.carousel-view {
+    overflow: hidden;
+    width: 100%;
+    padding: 0;
+}
+
+.carousel-item {
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 5px;
+    border: 5px solid transparent;
+}
+
+.carousel-item-selected {
+    transition-property: border;
+    transition-duration: 2s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    
+    border: 5px solid red;
+}
+
+.carousel-item-container {
+    transition-property: transform;
+    transition-duration: 1s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+
+    padding: 0;
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 110px;
+}
+
+.carousel-arrow-left {
+    left: 10px;
+}
+
+.carousel-arrow-right {
+    right: 10px;
+}
