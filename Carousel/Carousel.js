@@ -34,24 +34,23 @@ var Carousel = function(items, viewport, itemWidth, container) {
         throw new RangeError();
 
     var self = this;
-    var itemsPerPage = 3;
+    var itemsOnPage = 3;
     var arrowWidth = 45;
     viewport = viewport || "900";
     viewport -= 2 * arrowWidth;
     
     var borederWidth = 5;
     var paddingWidth = 5;
-    if (viewport < (itemWidth + 2 * (borederWidth + paddingWidth)) * itemsPerPage)
+    if (viewport < (itemWidth + 2 * (borederWidth + paddingWidth)) * itemsOnPage)
         throw new RangeError();
 
     var marginWidth = ((viewport / 3) - itemWidth - 2 * borederWidth - 2 * paddingWidth) / 2;
     var additionalWidth = (borederWidth + paddingWidth + marginWidth) * 2;
     
-    this.data = items;
     this.selectedItem = 0;
     this.currentShiftView = 0;
     this.firstVisible = 0;
-    this.lastVisible =  items.length > itemsPerPage ? itemsPerPage - 1 : items.length - 1;
+    this.lastVisible =  items.length > itemsOnPage ? itemsOnPage - 1 : items.length - 1;
 
     var createItem = function(img_src, description) {
         var item, img, p, margin;
@@ -142,8 +141,7 @@ var Carousel = function(items, viewport, itemWidth, container) {
     this.itemContainer = createItemContainer(this.items);
 
     var carouselContainer = document.createElement("div");
-    carouselContainer.classList.add("carousel-container")
-    //carouselContainer.style.width = (itemWidth + additionalWidth) * itemsPerPage;
+    carouselContainer.classList.add("carousel-container");
     carouselContainer.style.width = viewport;
 
     carouselContainer.appendChild(createView(this.itemContainer));
