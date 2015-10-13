@@ -2,8 +2,14 @@ window.addEventListener("load", function() {
     var changeColor = function(e) {
         var target = e.target || e.srcElement;
         if (target.tagName === "TD") {
-            target.classList.toggle("blue_cell");
-            target.classList.toggle("green_cell");
+            if (target.classList.contains("blue_cell")) {
+                target.classList.remove("blue_cell");
+                target.classList.add("green_cell");
+            }
+            else {
+                target.classList.remove("green_cell");
+                target.classList.add("blue_cell");
+            }
         }
     }
 
