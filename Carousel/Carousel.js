@@ -49,7 +49,7 @@ var Carousel = function(items, viewport, itemWidth, container) {
     this.selectedItem = 0;
     this.currentShiftView = 0;
     this.firstVisible = 0;
-    this.lastVisible =  items.length > itemsPerPage ? itemsPerPage - 1 : items.length - 1;
+    this.lastVisible =  items.length > viewport ? viewport - 1 : items.length - 1;
 
     this.data = items;
     this.itemWidth = itemWidth;
