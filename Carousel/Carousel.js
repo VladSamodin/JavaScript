@@ -36,20 +36,16 @@ var Carousel = function(items, viewport, itemWidth, container) {
         throw new ReferenceError();
     if (itemWidth <= 0)
         throw new RangeError();
-
-    var itemsPerPage = 3;
-    var arrowWidth = 45;
-    viewport = viewport || "900";
-    viewport -= 2 * arrowWidth;
-    
-    var borederWidth = 5;
-    var paddingWidth = 5;
-    if (viewport < (itemWidth + 2 * (borederWidth + paddingWidth)) * itemsPerPage)
+    if (viewport < 1)
         throw new RangeError();
 
-    var marginWidth = ((viewport / 3) - itemWidth - 2 * borederWidth - 2 * paddingWidth) / 2;
+    var arrowWidth = 45;
+
+    var borederWidth = 5;
+    var paddingWidth = 5;
+    var marginWidth = 5;
     var additionalWidth = (borederWidth + paddingWidth + marginWidth) * 2;
-    
+
     this.selectedItem = 0;
     this.currentShiftView = 0;
     this.firstVisible = 0;
@@ -58,8 +54,7 @@ var Carousel = function(items, viewport, itemWidth, container) {
     this.data = items;
     this.itemWidth = itemWidth;
     this.container = container;
-    this.viewport = viewport;
-    this.itemsPerPage = itemsPerPage;
+    this.itemsPerPage = viewport;
     this.arrowWidth = arrowWidth;
     this.borederWidth = borederWidth;
     this.paddingWidth = paddingWidth;
@@ -162,7 +157,7 @@ Carousel.prototype.build = function() {
 
     var carouselContainer = document.createElement("div");
     carouselContainer.classList.add("carousel-container")
-    carouselContainer.style.width = this.viewport;
+    carouselContainer.style.width = (this.itemWidth + this.additionalWidth) * this.itemsPerPage; 
 
     carouselContainer.appendChild(this._createView(this.itemContainer));
     carouselContainer.appendChild(this._createPrevButton());
@@ -174,6 +169,6 @@ Carousel.prototype.build = function() {
 
 
 window.addEventListener("load", function() {
-    var carusel = new Carousel(getItmes(), 1200, 300, document.getElementById('container'));
+    var carusel = new Carousel(getItmes(), 1, 200, document.getElementById('container'));
     carusel.build();
 });
